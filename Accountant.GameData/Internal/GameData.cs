@@ -77,7 +77,7 @@ internal class GameData : IGameData
     public byte GetJumboCactpotResetHour(uint worldId)
         => _worldCactpotHours!.TryGetValue(worldId, out var ret)
             ? ret
-            : throw new ArgumentOutOfRangeException($"{worldId} is not a valid world id.");
+            : (byte)12;
 
     public GameData(IPluginLog log, IGameGui gui, IClientState state, IFramework framework, IDataManager data, IObjectTable objects)
     {
