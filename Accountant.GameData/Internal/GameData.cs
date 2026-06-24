@@ -124,18 +124,21 @@ internal class GameData : IGameData
     public (string Tag, string? Name, string? Leader) FreeCompanyInfo()
         => Valid ? _fcTracker!.FreeCompanyInfo : throw new InvalidOperationException("Trying to use disposed GameData.");
 
-    private static bool IsValid(World world)
+    static bool IsValid(World world)
     {
         if (world.Name.IsEmpty)
             return false;
 
-        if (world.DataCenter.RowId is 0)
+        if (!world.DataCenter.IsValid)
             return false;
 
-        if (world.IsPublic)
-            return true;
+        if (world.RowId < 1024)
+            return false;
 
-        return char.IsUpper((char)world.Name.Data.Span[0]);
+        if (world.Region != 101)
+            return false;
+
+        return true;
     }
 
     public void Dispose()
